@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog - Gerald Jones II</title>
+  <link rel="icon" href="data:">
+  <style>
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    :root, [data-theme="dark"] {
+      --bg: #0a0a0a; --terminal-bg: #0a0a0a; --header-bg: #111;
+      --border: #333; --text: #ccc; --text-dim: #888; --text-muted: #555;
+      --accent: #00ff41; --section-border: #1a1a1a;
+    }
+    [data-theme="light"] {
+      --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
+      --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
+      --accent: #007a1f; --section-border: #ccc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.7 'Courier New', 'Lucida Console', monospace;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+      padding: 24px 16px;
+    }
+    .terminal {
+      max-width: 900px; width: 100%;
+      border: 1px solid var(--border);
+    }
+    .terminal-header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+    .terminal-header .title { margin-left: 12px; color: var(--text-dim); font-size: 13px; }
+    .theme-toggle {
+      margin-left: auto; background: none; border: 1px solid var(--border);
+      color: var(--accent); font: inherit; font-size: 12px; padding: 2px 8px; cursor: pointer;
+    }
+    .terminal-body { padding: 28px 32px; background: var(--terminal-bg); }
+    .prompt { color: var(--text-dim); margin: 0 0 16px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--text); }
+    .cursor { display: inline-block; color: var(--accent); animation: blink 1s step-end infinite; }
+    .footer { margin-top: 24px; color: var(--text-dim); }
+    .post-list { list-style: none; padding: 0; margin: 0; }
+    .post-list li { padding: 8px 0; border-bottom: 1px solid var(--section-border); }
+    .post-list li:last-child { border-bottom: none; }
+    .post-date { color: var(--text-dim); font-size: 13px; margin-right: 12px; }
+    .back-link { margin-bottom: 16px; display: block; }
+    @media (max-width: 700px) {
+      body { padding: 8px; }
+      .terminal-body { padding: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+      <span class="title">gerald@rasppi:~/blog</span>
+      <button class="theme-toggle" id="theme-toggle">[light]</button>
+    </div>
+
+    <div class="terminal-body">
+      <a href="/" class="back-link">&lt; cd ~</a>
+      <p class="prompt">$ ls -lt blog/</p>
+
+      <ul class="post-list">
+        <li>
+          <span class="post-date">2026-02-09</span>
+          <a href="/blog/hello-world.html">hello-world.txt — Why I'm starting this blog</a>
+        </li>
+      </ul>
+
+      <p class="footer">$ <span class="cursor">█</span></p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('theme-toggle');
+      var saved = localStorage.getItem('theme');
+      if (saved) html.setAttribute('data-theme', saved);
+      function updateBtn() {
+        var current = html.getAttribute('data-theme') || 'dark';
+        btn.textContent = current === 'dark' ? '[light]' : '[dark]';
+      }
+      updateBtn();
+      btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateBtn();
+      });
+    })();
+  </script>
+</body>
+
+</html>

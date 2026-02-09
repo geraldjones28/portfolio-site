@@ -1,23 +1,69 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerald Jones II</title>
   <link rel="icon" href="data:">
   <style>
+    /* === Animations === */
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+    @keyframes crt-on {
+      0% { transform: scaleY(0.005) scaleX(0.5); opacity: 0.8; filter: brightness(10); }
+      40% { transform: scaleY(0.005) scaleX(1); opacity: 1; filter: brightness(5); }
+      60% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(2); }
+      100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
 
+    /* === Theme Variables === */
+    :root, [data-theme="dark"] {
+      --bg: #0a0a0a;
+      --terminal-bg: #0a0a0a;
+      --header-bg: #111;
+      --border: #333;
+      --text: #ccc;
+      --text-dim: #888;
+      --text-muted: #555;
+      --accent: #00ff41;
+      --accent-dim: #00cc33;
+      --accent-dot: #27c93f;
+      --section-border: #1a1a1a;
+      --code-bg: #1a1a1a;
+      --progress-bg: #1a1a1a;
+      --scanline-opacity: 0.03;
+    }
+    [data-theme="light"] {
+      --bg: #e8e8e8;
+      --terminal-bg: #f5f5f0;
+      --header-bg: #ddd;
+      --border: #bbb;
+      --text: #222;
+      --text-dim: #666;
+      --text-muted: #999;
+      --accent: #007a1f;
+      --accent-dim: #005a16;
+      --accent-dot: #1a8a2e;
+      --section-border: #ccc;
+      --code-bg: #ddd;
+      --progress-bg: #ccc;
+      --scanline-opacity: 0.01;
+    }
+
+    /* === Base === */
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font: 15px/1.7 'Courier New', 'Lucida Console', monospace;
-      background: #0a0a0a;
-      color: #ccc;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -28,17 +74,19 @@
     .terminal {
       max-width: 900px;
       width: 100%;
-      border: 1px solid #333;
+      border: 1px solid var(--border);
       box-shadow: 0 0 20px rgba(0, 255, 65, 0.08);
       transition: box-shadow 0.3s ease;
+      animation: crt-on 0.8s ease-out;
     }
     .terminal:hover {
       box-shadow: 0 0 40px rgba(0, 255, 65, 0.18), 0 0 80px rgba(0, 255, 65, 0.07);
     }
 
+    /* === Terminal Header === */
     .terminal-header {
-      background: #111;
-      border-bottom: 1px solid #333;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
       padding: 10px 16px;
       display: flex;
       align-items: center;
@@ -55,77 +103,84 @@
     .dot.green { background: #27c93f; }
     .terminal-header .title {
       margin-left: 12px;
-      color: #888;
+      color: var(--text-dim);
       font-size: 13px;
     }
-
-    .terminal-body {
-      padding: 28px 32px;
+    .theme-toggle {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font: inherit;
+      font-size: 12px;
+      padding: 2px 8px;
+      cursor: pointer;
+    }
+    .theme-toggle:hover {
+      color: var(--text);
+      border-color: var(--accent);
     }
 
-    /* neofetch prompt line */
+    /* === Terminal Body === */
+    .terminal-body {
+      padding: 28px 32px;
+      background: var(--terminal-bg);
+    }
+
     .prompt {
-      color: #888;
+      color: var(--text-dim);
       margin: 0 0 20px;
     }
 
-    /* neofetch layout */
+    /* === Neofetch Layout === */
     .neofetch {
       display: flex;
       gap: 40px;
       align-items: flex-start;
     }
-
     .ascii-art {
-      color: #00ff41;
+      color: var(--accent);
       white-space: pre;
       font-size: 11px;
       line-height: 1.2;
       flex-shrink: 0;
     }
-
     .info {
       flex: 1;
       min-width: 0;
     }
-
     .info-header {
-      color: #00ff41;
+      color: var(--accent);
       font-weight: bold;
       font-size: 17px;
       margin: 0;
     }
-    .info-title {
-      color: #888;
-      margin: 0 0 12px;
-    }
     .info-separator {
-      color: #333;
+      color: var(--border);
       margin: 4px 0 12px;
     }
-
     .info-row {
       margin: 6px 0;
     }
     .info-label {
-      color: #00ff41;
+      color: var(--accent);
       font-weight: bold;
     }
     .info-value {
-      color: #ccc;
+      color: var(--text);
     }
 
+    /* === Sections === */
     .info-section {
       margin-top: 18px;
       padding-top: 14px;
-      border-top: 1px solid #1a1a1a;
+      border-top: 1px solid var(--section-border);
     }
     .info-section-title {
-      color: #00ff41;
+      color: var(--accent);
       font-weight: bold;
       margin-bottom: 8px;
     }
-
     .info-list {
       list-style: none;
       padding: 0;
@@ -133,14 +188,52 @@
     }
     .info-list li {
       padding: 4px 0;
-      color: #ccc;
+      color: var(--text);
     }
     .info-list li::before {
       content: "- ";
-      color: #555;
+      color: var(--text-muted);
     }
 
-    /* color palette bar like neofetch */
+    /* === Progress Tracker === */
+    .cert-roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cert-name {
+      color: var(--text);
+      min-width: 60px;
+    }
+    .cert-name.completed {
+      color: var(--accent);
+    }
+    .progress-bar {
+      flex: 1;
+      height: 14px;
+      background: var(--progress-bg);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.5s ease;
+    }
+    .cert-status {
+      color: var(--text-dim);
+      font-size: 12px;
+      min-width: 70px;
+      text-align: right;
+    }
+
+    /* === Color Bar === */
     .color-bar {
       display: flex;
       gap: 0;
@@ -150,28 +243,34 @@
       width: 24px;
       height: 12px;
       display: inline-block;
+      animation: pulse 2s ease-in-out infinite;
     }
+    .color-bar span:nth-child(1) { animation-delay: 0s; }
+    .color-bar span:nth-child(2) { animation-delay: 0.25s; }
+    .color-bar span:nth-child(3) { animation-delay: 0.5s; }
+    .color-bar span:nth-child(4) { animation-delay: 0.75s; }
+    .color-bar span:nth-child(5) { animation-delay: 1s; }
+    .color-bar span:nth-child(6) { animation-delay: 1.25s; }
+    .color-bar span:nth-child(7) { animation-delay: 1.5s; }
+    .color-bar span:nth-child(8) { animation-delay: 1.75s; }
 
+    /* === Misc === */
     .cursor {
       display: inline-block;
-      color: #00ff41;
+      color: var(--accent);
       animation: blink 1s step-end infinite;
     }
-
-    a { color: #00ff41; text-decoration: none; }
-    a:hover { color: #fff; }
-
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--text); }
     code {
-      background: #1a1a1a;
+      background: var(--code-bg);
       padding: 2px 6px;
-      color: #00ff41;
+      color: var(--accent);
     }
-
     .footer {
       margin-top: 24px;
-      color: #888;
+      color: var(--text-dim);
     }
-
     .scanlines {
       pointer-events: none;
       position: fixed;
@@ -179,19 +278,21 @@
       width: 100%; height: 100%;
       background: repeating-linear-gradient(
         0deg,
-        rgba(0,0,0,0.03) 0px,
-        rgba(0,0,0,0.03) 1px,
+        rgba(0,0,0,var(--scanline-opacity)) 0px,
+        rgba(0,0,0,var(--scanline-opacity)) 1px,
         transparent 1px,
         transparent 2px
       );
       z-index: 999;
     }
 
+    /* === Responsive === */
     @media (max-width: 700px) {
       body { padding: 8px; }
       .terminal-body { padding: 16px; }
       .neofetch { flex-direction: column; gap: 20px; }
       .ascii-art { font-size: 9px; }
+      .cert-item { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -205,6 +306,7 @@
       <span class="dot yellow"></span>
       <span class="dot green"></span>
       <span class="title">gerald@rasppi:~</span>
+      <button class="theme-toggle" id="theme-toggle">[light]</button>
     </div>
 
     <div class="terminal-body">
@@ -229,13 +331,36 @@
           <p class="info-row"><span class="info-label">Host: </span><span class="info-value">Raspberry Pi Home-Lab</span></p>
           <p class="info-row"><span class="info-label">Stack: </span><span class="info-value">Docker, Nginx, UFW, Cloudflare</span></p>
           <p class="info-row"><span class="info-label">Uptime: </span><span class="info-value" id="uptime">0 days, 0 hours, 0 minutes</span></p>
+          <p class="info-row"><span class="info-label">CPU: </span><span class="info-value" id="cpu-temp">--</span></p>
+          <p class="info-row"><span class="info-label">Load: </span><span class="info-value" id="cpu-load">--</span></p>
+          <p class="info-row"><span class="info-label">Memory: </span><span class="info-value" id="mem-usage">--</span></p>
           <p class="info-row"><span class="info-label">Resume: </span><span class="info-value"><a href="resume.pdf">resume.pdf</a></span></p>
+          <p class="info-row"><span class="info-label">Blog: </span><span class="info-value"><a href="/blog/">~/blog</a></span></p>
 
           <div class="info-section">
-            <div class="info-section-title">Certs</div>
-            <ul class="info-list">
-              <li>CompTIA A+ Core 1 (2/4/26)</li>
-            </ul>
+            <div class="info-section-title">Cert Roadmap</div>
+            <div class="cert-roadmap">
+              <div class="cert-item">
+                <span class="cert-name completed">A+</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+                <span class="cert-status">Core 1 ✓</span>
+              </div>
+              <div class="cert-item">
+                <span class="cert-name">Net+</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <span class="cert-status">planned</span>
+              </div>
+              <div class="cert-item">
+                <span class="cert-name">Sec+</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <span class="cert-status">planned</span>
+              </div>
+              <div class="cert-item">
+                <span class="cert-name">CySA+</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+                <span class="cert-status">planned</span>
+              </div>
+            </div>
           </div>
 
           <div class="info-section">
@@ -280,7 +405,7 @@
       <p class="footer">$ <span class="cursor">█</span></p>
     </div>
   </div>
-  <script src="uptime.js"></script>
+  <script src="main.js"></script>
 </body>
 
 </html>

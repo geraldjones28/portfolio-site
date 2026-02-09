@@ -14,3 +14,6 @@ docker-compose.override.yml
 
 # Environment
 .env
+
+# Auto-generated
+site/stats.json
