@@ -1,0 +1,11 @@
+#version: "3.9"
+services:
+  web:
+    image: nginx:alpine
+    container_name: portfolio-web
+    ports:
+      - "8080:80"                  # <-- separate from your lab's (juiceshop) :80
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
