@@ -29,7 +29,8 @@ The site uses a terminal emulator aesthetic. Key CSS conventions:
 - **Font**: `'Courier New', 'Lucida Console', monospace`
 - **Sections**: Use `<p class="prompt">command-name</p>` (auto-prefixed with `$ `) followed by output elements
 - **Lists**: `<ul>` inside `.section` div — items are auto-prefixed with `[✓]` via CSS
-- **No external resources**: Everything must be inline/self-hosted to comply with the strict CSP (`default-src 'self'`)
+- **Links**: Green (`#00ff41`) with underline, white on hover
+- **No external resources**: Everything must be inline/self-hosted. CSP is `default-src 'self'; style-src 'self' 'unsafe-inline'` — inline styles are allowed but no external sources
 
 ## Deployment Context
 

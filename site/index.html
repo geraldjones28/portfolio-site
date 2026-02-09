@@ -29,6 +29,10 @@
       width: 100%;
       border: 1px solid #00ff41;
       box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    .terminal:hover {
+      box-shadow: 0 0 40px rgba(0, 255, 65, 0.25), 0 0 80px rgba(0, 255, 65, 0.1);
     }
 
     .terminal-header {
@@ -179,17 +183,38 @@
       <p class="prompt">uname -a</p>
       <p class="output">This website is built and deployed on my Raspberry Pi home-lab using Docker, nginx, UFW.</p>
 
+      <p class="prompt">cat certs.log</p>
+      <div class="section">
+        <ul>
+          <li>CompTIA A+ Core 1 Certified (2/4/26)</li>
+        </ul>
+      </div>
+
       <p class="prompt">cat skills.log</p>
       <div class="section">
-        <ul> 
-          <li>COMPTIA A+ Core 1 Certified (2/4/26)</li>
-	  <li>Configured SSH key-based authentication with enforced UFW allowlisting</li>
+        <ul>
+          <li>Configured SSH key-based authentication with enforced UFW allowlisting</li>
           <li>Deployed OWASP Juice Shop securely behind Nginx reverse proxy (Dockerized)</li>
           <li>Implemented log monitoring and intrusion response using <code>journalctl</code> + <code>fail2ban</code></li>
           <li>Maintained Linux-based web services with TLS tunneling via Cloudflare</li>
           <li>Automated deployment workflows and local testing through Docker Compose</li>
         </ul>
       </div>
+
+      <p class="prompt">ls projects/</p>
+      <div class="section">
+        <ul>
+          <li><strong>Portfolio Site</strong> — Static HTML/CSS site with terminal UI, served by Nginx on a Raspberry Pi via Docker</li>
+          <li><strong>Home-Lab Infrastructure</strong> — Self-hosted services on Raspberry Pi with UFW, SSH hardening, fail2ban, and Cloudflare tunneling</li>
+          <li><strong>OWASP Juice Shop</strong> — Deployed intentionally vulnerable web app behind Nginx reverse proxy for security practice</li>
+        </ul>
+      </div>
+
+      <p class="prompt">uptime</p>
+      <p class="output">up <span id="uptime">0 days, 0 hours, 0 minutes</span></p>
+
+      <p class="prompt">cat resume.pdf</p>
+      <p class="output"><a href="resume.pdf">Download Resume</a></p>
 
       <p class="prompt">cat contact.txt</p>
       <div class="section">
@@ -202,6 +227,7 @@
       <p class="prompt"><span class="cursor">█</span></p>
     </div>
   </div>
+  <script src="uptime.js"></script>
 </body>
 
 </html>
