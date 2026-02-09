@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerald Jones II</title>
   <link rel="icon" href="data:">
+  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
   <style>
     /* === Animations === */
     @keyframes blink {
@@ -12,10 +13,10 @@
       50% { opacity: 0; }
     }
     @keyframes crt-on {
-      0% { transform: scaleY(0.005) scaleX(0.5); opacity: 0.8; filter: brightness(10); }
-      40% { transform: scaleY(0.005) scaleX(1); opacity: 1; filter: brightness(5); }
-      60% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(2); }
-      100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
+      0% { opacity: 0; filter: brightness(10); }
+      30% { opacity: 1; filter: brightness(5); }
+      60% { filter: brightness(2); }
+      100% { filter: brightness(1); }
     }
     @keyframes pulse {
       0%, 100% { opacity: 0.4; }
@@ -65,15 +66,13 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       padding: 24px 16px;
     }
 
     .terminal {
       max-width: 900px;
       width: 100%;
+      margin: 0 auto;
       border: 1px solid var(--border);
       box-shadow: 0 0 20px rgba(0, 255, 65, 0.08);
       transition: box-shadow 0.3s ease;
@@ -327,7 +326,6 @@
 
           <p class="info-row"><span class="info-label">Name: </span><span class="info-value">Gerald Jones II</span></p>
           <p class="info-row"><span class="info-label">Role: </span><span class="info-value">Aspiring Security Engineer</span></p>
-          <p class="info-row"><span class="info-label">Motto: </span><span class="info-value">"Secure by design."</span></p>
           <p class="info-row"><span class="info-label">Host: </span><span class="info-value">Raspberry Pi Home-Lab</span></p>
           <p class="info-row"><span class="info-label">Stack: </span><span class="info-value">Docker, Nginx, UFW, Cloudflare</span></p>
           <p class="info-row"><span class="info-label">Uptime: </span><span class="info-value" id="uptime">0 days, 0 hours, 0 minutes</span></p>
