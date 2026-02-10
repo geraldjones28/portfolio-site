@@ -15,5 +15,8 @@ docker-compose.override.yml
 # Environment
 .env
 
+# Node modules
+blog-api/node_modules/
+
 # Auto-generated
 site/stats.json

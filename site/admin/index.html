@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Gerald Jones II</title>
+  <link rel="icon" href="data:">
+  <style>
+    /* === Animations === */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* === Theme Variables === */
+    :root, [data-theme="dark"] {
+      --bg: #0a0a0a; --terminal-bg: #0a0a0a; --header-bg: #111;
+      --border: #333; --text: #ccc; --text-dim: #888; --text-muted: #555;
+      --accent: #00ff41; --section-border: #1a1a1a; --code-bg: #1a1a1a;
+      --error: #ff5f56; --success: #27c93f;
+    }
+    [data-theme="light"] {
+      --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
+      --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
+      --accent: #007a1f; --section-border: #ccc; --code-bg: #ddd;
+      --error: #cc0000; --success: #007a1f;
+    }
+
+    /* === Base === */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.7 'Courier New', 'Lucida Console', monospace;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh;
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: 24px 16px;
+    }
+
+    /* === Terminal Chrome === */
+    .terminal {
+      max-width: 900px; width: 100%;
+      border: 1px solid var(--border);
+    }
+    .terminal-header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+    .terminal-header .title { margin-left: 12px; color: var(--text-dim); font-size: 13px; }
+    .theme-toggle {
+      margin-left: auto; background: none; border: 1px solid var(--border);
+      color: var(--accent); font: inherit; font-size: 12px; padding: 2px 8px; cursor: pointer;
+    }
+    .terminal-body { padding: 28px 32px; background: var(--terminal-bg); }
+
+    /* === Shared Elements === */
+    .prompt { color: var(--text-dim); margin: 0 0 16px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--text); }
+    .cursor { display: inline-block; color: var(--accent); animation: blink 1s step-end infinite; }
+    .footer { margin-top: 24px; color: var(--text-dim); }
+    .back-link { margin-bottom: 16px; display: block; }
+
+    /* === Form Controls === */
+    input[type="password"], input[type="text"], input[type="date"], textarea {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font: inherit;
+      padding: 6px 10px;
+      width: 100%;
+      outline: none;
+    }
+    input[type="password"]:focus, input[type="text"]:focus,
+    input[type="date"]:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    textarea {
+      min-height: 300px;
+      resize: vertical;
+    }
+
+    /* === Buttons === */
+    .btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font: inherit;
+      padding: 4px 14px;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--text); }
+    .btn-danger { color: var(--error); }
+    .btn-danger:hover { border-color: var(--error); }
+
+    /* === Status Messages === */
+    .msg { margin: 12px 0; padding: 0; }
+    .msg-ok { color: var(--success); }
+    .msg-err { color: var(--error); }
+
+    /* === Post List === */
+    .post-list { list-style: none; padding: 0; margin: 0; }
+    .post-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--section-border);
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    }
+    .post-list li:last-child { border-bottom: none; }
+    .post-date { color: var(--text-dim); font-size: 13px; }
+    .post-info { flex: 1; min-width: 200px; }
+    .post-actions { display: flex; gap: 6px; }
+    .post-actions .btn { font-size: 13px; padding: 2px 8px; }
+
+    /* === Editor === */
+    .form-row { margin-bottom: 14px; }
+    .form-label { color: var(--accent); font-weight: bold; display: block; margin-bottom: 4px; }
+    .form-row-inline { display: flex; gap: 16px; }
+    .form-row-inline .form-row { flex: 1; }
+
+    /* === Screens (shown/hidden via JS) === */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* === Responsive === */
+    @media (max-width: 700px) {
+      body { padding: 8px; }
+      .terminal-body { padding: 16px; }
+      .form-row-inline { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+      <span class="title">gerald@rasppi:~/admin</span>
+      <button class="theme-toggle" id="theme-toggle">[light]</button>
+    </div>
+
+    <div class="terminal-body">
+      <a href="/" class="back-link">&lt; cd ~</a>
+
+      <!-- ============================================================ -->
+      <!-- LOGIN SCREEN                                                  -->
+      <!-- ============================================================ -->
+      <div id="screen-login" class="screen active">
+        <p class="prompt">$ sudo login</p>
+        <div class="form-row">
+          <label class="form-label" for="login-password">Password: </label>
+          <input type="password" id="login-password" autocomplete="current-password" />
+        </div>
+        <button class="btn" id="login-btn">[enter]</button>
+        <p id="login-msg" class="msg"></p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- POST LIST SCREEN                                              -->
+      <!-- ============================================================ -->
+      <div id="screen-list" class="screen">
+        <p class="prompt">$ ls -la blog/</p>
+        <ul id="post-list" class="post-list"></ul>
+        <p id="list-msg" class="msg"></p>
+        <div style="margin-top: 18px; border-top: 1px solid var(--section-border); padding-top: 14px;">
+          <p class="prompt" style="margin-bottom: 8px;">$ touch new-post.txt</p>
+          <button class="btn" id="new-post-btn">[new post]</button>
+          <button class="btn" id="logout-btn">[logout]</button>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- POST EDITOR SCREEN                                            -->
+      <!-- ============================================================ -->
+      <div id="screen-editor" class="screen">
+        <p class="prompt" id="editor-prompt">$ vim new-post.txt</p>
+        <div class="form-row-inline">
+          <div class="form-row">
+            <label class="form-label" for="edit-title">Title: </label>
+            <input type="text" id="edit-title" placeholder="Post title" />
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="edit-date">Date: </label>
+            <input type="date" id="edit-date" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="edit-slug">Slug: </label>
+          <input type="text" id="edit-slug" placeholder="auto-generated-from-title" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="edit-body">Body: </label>
+          <textarea id="edit-body" placeholder="Write your post here...&#10;&#10;Separate paragraphs with blank lines."></textarea>
+        </div>
+        <button class="btn" id="save-btn">:wq [save]</button>
+        <button class="btn" id="cancel-btn">:q! [cancel]</button>
+        <p id="editor-msg" class="msg"></p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- DELETE CONFIRMATION SCREEN                                    -->
+      <!-- ============================================================ -->
+      <div id="screen-delete" class="screen">
+        <p class="prompt">$ rm <span id="delete-slug-display"></span>.txt</p>
+        <p style="color: var(--error);">Are you sure? This cannot be undone.</p>
+        <button class="btn btn-danger" id="confirm-delete-btn">[y] confirm</button>
+        <button class="btn" id="cancel-delete-btn">[n] cancel</button>
+        <p id="delete-msg" class="msg"></p>
+      </div>
+
+      <p class="footer">$ <span class="cursor">█</span></p>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // THEME TOGGLE — same logic as the rest of the site
+    // =========================================================================
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('theme-toggle');
+      var saved = localStorage.getItem('theme');
+      if (saved) html.setAttribute('data-theme', saved);
+      function updateBtn() {
+        var current = html.getAttribute('data-theme') || 'dark';
+        btn.textContent = current === 'dark' ? '[light]' : '[dark]';
+      }
+      updateBtn();
+      btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateBtn();
+      });
+    })();
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    var token = sessionStorage.getItem('blog_token');
+    var editingSlug = null; // null = creating new post, string = editing existing
+
+    // =========================================================================
+    // HELPERS
+    // =========================================================================
+    function $(id) { return document.getElementById(id); }
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      $(name).classList.add('active');
+    }
+
+    function setMsg(id, text, ok) {
+      var el = $(id);
+      el.textContent = text ? (ok ? '[OK] ' : '[ERR] ') + text : '';
+      el.className = 'msg ' + (ok ? 'msg-ok' : 'msg-err');
+    }
+
+    function api(method, path, body) {
+      var opts = {
+        method: method,
+        headers: { 'Content-Type': 'application/json' }
+      };
+      if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+      if (body) opts.body = JSON.stringify(body);
+      return fetch('/api/blog' + path, opts).then(function(r) {
+        return r.json().then(function(data) {
+          if (!r.ok) throw new Error(data.error || 'Request failed');
+          return data;
+        });
+      });
+    }
+
+    function slugify(title) {
+      return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 100);
+    }
+
+    function todayStr() {
+      var d = new Date();
+      return d.getFullYear() + '-' +
+        String(d.getMonth() + 1).padStart(2, '0') + '-' +
+        String(d.getDate()).padStart(2, '0');
+    }
+
+    // =========================================================================
+    // LOGIN
+    // =========================================================================
+    $('login-btn').addEventListener('click', doLogin);
+    $('login-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doLogin();
+    });
+
+    function doLogin() {
+      var pw = $('login-password').value;
+      if (!pw) { setMsg('login-msg', 'Password required', false); return; }
+      setMsg('login-msg', '', true);
+      api('POST', '/login', { password: pw })
+        .then(function(data) {
+          token = data.token;
+          sessionStorage.setItem('blog_token', token);
+          $('login-password').value = '';
+          loadPosts();
+        })
+        .catch(function(err) {
+          setMsg('login-msg', err.message, false);
+        });
+    }
+
+    // =========================================================================
+    // POST LIST
+    // =========================================================================
+    function loadPosts() {
+      setMsg('list-msg', '', true);
+      api('GET', '/posts')
+        .then(function(posts) {
+          var list = $('post-list');
+          if (posts.length === 0) {
+            list.innerHTML = '<li style="color:var(--text-dim)">No posts yet.</li>';
+          } else {
+            list.innerHTML = posts.map(function(p) {
+              return '<li>' +
+                '<span class="post-date">' + escapeHtml(p.date) + '</span>' +
+                '<span class="post-info">' +
+                  '<a href="/blog/' + escapeHtml(p.slug) + '.html" target="_blank">' +
+                    escapeHtml(p.slug) + '.txt — ' + escapeHtml(p.title) +
+                  '</a>' +
+                '</span>' +
+                '<span class="post-actions">' +
+                  '<button class="btn" onclick="editPost(\'' + escapeHtml(p.slug) + '\')">[edit]</button>' +
+                  '<button class="btn btn-danger" onclick="deletePost(\'' + escapeHtml(p.slug) + '\')">[rm]</button>' +
+                '</span>' +
+              '</li>';
+            }).join('');
+          }
+          showScreen('screen-list');
+        })
+        .catch(function(err) {
+          if (err.message === 'Unauthorized' || err.message === 'Invalid or expired token') {
+            sessionStorage.removeItem('blog_token');
+            token = null;
+            showScreen('screen-login');
+            setMsg('login-msg', 'Session expired — please log in again', false);
+          } else {
+            setMsg('list-msg', err.message, false);
+          }
+        });
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // =========================================================================
+    // NEW POST
+    // =========================================================================
+    $('new-post-btn').addEventListener('click', function() {
+      editingSlug = null;
+      $('editor-prompt').textContent = '$ vim new-post.txt';
+      $('edit-title').value = '';
+      $('edit-date').value = todayStr();
+      $('edit-slug').value = '';
+      $('edit-slug').removeAttribute('readonly');
+      $('edit-body').value = '';
+      setMsg('editor-msg', '', true);
+      showScreen('screen-editor');
+    });
+
+    // Auto-generate slug from title when creating a new post
+    $('edit-title').addEventListener('input', function() {
+      if (!editingSlug) {
+        $('edit-slug').value = slugify($('edit-title').value);
+      }
+    });
+
+    // =========================================================================
+    // EDIT POST
+    // =========================================================================
+    window.editPost = function(slug) {
+      setMsg('list-msg', '', true);
+      api('GET', '/posts/' + slug)
+        .then(function(post) {
+          editingSlug = slug;
+          $('editor-prompt').textContent = '$ vim ' + slug + '.txt';
+          $('edit-title').value = post.title;
+          $('edit-date').value = post.date;
+          $('edit-slug').value = slug;
+          $('edit-slug').setAttribute('readonly', 'readonly');
+          $('edit-body').value = post.body;
+          setMsg('editor-msg', '', true);
+          showScreen('screen-editor');
+        })
+        .catch(function(err) {
+          setMsg('list-msg', err.message, false);
+        });
+    };
+
+    // =========================================================================
+    // SAVE POST (Create or Update)
+    // =========================================================================
+    $('save-btn').addEventListener('click', function() {
+      var title = $('edit-title').value.trim();
+      var date = $('edit-date').value;
+      var slug = $('edit-slug').value.trim();
+      var body = $('edit-body').value.trim();
+
+      if (!title) { setMsg('editor-msg', 'Title required', false); return; }
+      if (!date) { setMsg('editor-msg', 'Date required', false); return; }
+      if (!body) { setMsg('editor-msg', 'Body required', false); return; }
+      if (!slug) slug = slugify(title);
+      if (!slug) { setMsg('editor-msg', 'Could not generate slug from title', false); return; }
+
+      setMsg('editor-msg', '', true);
+
+      if (editingSlug) {
+        // Update existing post
+        api('PUT', '/posts/' + editingSlug, { title: title, date: date, body: body })
+          .then(function() {
+            setMsg('editor-msg', 'Post updated', true);
+            setTimeout(loadPosts, 800);
+          })
+          .catch(function(err) { setMsg('editor-msg', err.message, false); });
+      } else {
+        // Create new post
+        api('POST', '/posts', { title: title, date: date, body: body, slug: slug })
+          .then(function() {
+            setMsg('editor-msg', 'Post created', true);
+            setTimeout(loadPosts, 800);
+          })
+          .catch(function(err) { setMsg('editor-msg', err.message, false); });
+      }
+    });
+
+    // =========================================================================
+    // CANCEL EDIT
+    // =========================================================================
+    $('cancel-btn').addEventListener('click', function() {
+      loadPosts();
+    });
+
+    // =========================================================================
+    // DELETE POST
+    // =========================================================================
+    var deleteSlug = null;
+
+    window.deletePost = function(slug) {
+      deleteSlug = slug;
+      $('delete-slug-display').textContent = slug;
+      setMsg('delete-msg', '', true);
+      showScreen('screen-delete');
+    };
+
+    $('confirm-delete-btn').addEventListener('click', function() {
+      if (!deleteSlug) return;
+      api('DELETE', '/posts/' + deleteSlug)
+        .then(function() {
+          deleteSlug = null;
+          loadPosts();
+        })
+        .catch(function(err) { setMsg('delete-msg', err.message, false); });
+    });
+
+    $('cancel-delete-btn').addEventListener('click', function() {
+      deleteSlug = null;
+      loadPosts();
+    });
+
+    // =========================================================================
+    // LOGOUT
+    // =========================================================================
+    $('logout-btn').addEventListener('click', function() {
+      sessionStorage.removeItem('blog_token');
+      token = null;
+      showScreen('screen-login');
+    });
+
+    // =========================================================================
+    // INIT — check for existing session on page load
+    // =========================================================================
+    if (token) {
+      loadPosts();
+    }
+  </script>
+</body>
+
+</html>

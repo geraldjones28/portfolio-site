@@ -4,26 +4,39 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Gerald Jones II</title>
+  <!-- Empty data: URI prevents a 404 favicon request -->
   <link rel="icon" href="data:">
+  <!-- Prevent the browser from restoring a mid-page scroll position on refresh -->
   <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
   <style>
-    /* === Animations === */
+    /* =============================================
+       ANIMATIONS
+       ============================================= */
+
+    /* Blinking cursor animation used by the terminal prompt cursor */
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+    /* CRT power-on effect: flashes bright then fades to normal,
+       simulating an old CRT monitor turning on */
     @keyframes crt-on {
       0% { opacity: 0; filter: brightness(10); }
       30% { opacity: 1; filter: brightness(5); }
       60% { filter: brightness(2); }
       100% { filter: brightness(1); }
     }
+    /* Pulsing opacity animation for the neofetch-style color bar at the bottom */
     @keyframes pulse {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 1; }
     }
 
-    /* === Theme Variables === */
+    /* =============================================
+       THEME VARIABLES
+       Dark and light theme colors using CSS custom properties.
+       Toggle is handled by main.js which swaps the data-theme attribute.
+       ============================================= */
     :root, [data-theme="dark"] {
       --bg: #0a0a0a;
       --terminal-bg: #0a0a0a;
@@ -57,7 +70,9 @@
       --scanline-opacity: 0.01;
     }
 
-    /* === Base === */
+    /* =============================================
+       BASE STYLES
+       ============================================= */
     * { box-sizing: border-box; }
 
     body {
@@ -69,6 +84,8 @@
       padding: 24px 16px;
     }
 
+    /* Main terminal window container — centered, with a green glow
+       that intensifies on hover, and CRT power-on animation on page load */
     .terminal {
       max-width: 900px;
       width: 100%;
@@ -82,7 +99,12 @@
       box-shadow: 0 0 40px rgba(0, 255, 65, 0.18), 0 0 80px rgba(0, 255, 65, 0.07);
     }
 
-    /* === Terminal Header === */
+    /* =============================================
+       TERMINAL HEADER
+       macOS-style window chrome with red/yellow/green dots,
+       a title bar showing the "user@host" prompt, and a
+       dark/light theme toggle button on the right.
+       ============================================= */
     .terminal-header {
       background: var(--header-bg);
       border-bottom: 1px solid var(--border);
@@ -120,7 +142,10 @@
       border-color: var(--accent);
     }
 
-    /* === Terminal Body === */
+    /* =============================================
+       TERMINAL BODY
+       Main content area inside the terminal window.
+       ============================================= */
     .terminal-body {
       padding: 28px 32px;
       background: var(--terminal-bg);
@@ -131,7 +156,12 @@
       margin: 0 0 20px;
     }
 
-    /* === Neofetch Layout === */
+    /* =============================================
+       NEOFETCH LAYOUT
+       Side-by-side layout mimicking the neofetch CLI tool:
+       ASCII art logo on the left, key-value system info on the right.
+       Stacks vertically on mobile (see responsive section below).
+       ============================================= */
     .neofetch {
       display: flex;
       gap: 40px;
@@ -169,7 +199,11 @@
       color: var(--text);
     }
 
-    /* === Sections === */
+    /* =============================================
+       CONTENT SECTIONS
+       Separated blocks for Skills, Projects, Contact, etc.
+       Each has a top border and an accent-colored title.
+       ============================================= */
     .info-section {
       margin-top: 18px;
       padding-top: 14px;
@@ -189,12 +223,17 @@
       padding: 4px 0;
       color: var(--text);
     }
+    /* Auto-prefix each list item with "- " for terminal look */
     .info-list li::before {
       content: "- ";
       color: var(--text-muted);
     }
 
-    /* === Progress Tracker === */
+    /* =============================================
+       CERTIFICATION PROGRESS TRACKER
+       Horizontal progress bars showing completion status
+       for each CompTIA certification on the roadmap.
+       ============================================= */
     .cert-roadmap {
       display: flex;
       flex-direction: column;
@@ -232,7 +271,12 @@
       text-align: right;
     }
 
-    /* === Color Bar === */
+    /* =============================================
+       COLOR BAR
+       Row of colored blocks at the bottom of the info section,
+       mimicking the neofetch terminal color palette display.
+       Each block pulses with a staggered animation delay.
+       ============================================= */
     .color-bar {
       display: flex;
       gap: 0;
@@ -253,7 +297,11 @@
     .color-bar span:nth-child(7) { animation-delay: 1.5s; }
     .color-bar span:nth-child(8) { animation-delay: 1.75s; }
 
-    /* === Misc === */
+    /* =============================================
+       MISC
+       ============================================= */
+
+    /* Blinking block cursor at the terminal prompt */
     .cursor {
       display: inline-block;
       color: var(--accent);
@@ -270,6 +318,9 @@
       margin-top: 24px;
       color: var(--text-dim);
     }
+    /* Full-screen CRT scanline overlay — thin horizontal lines across the
+       viewport that simulate a CRT monitor. Non-interactive (pointer-events: none)
+       so it doesn't block clicks. Opacity varies by theme. */
     .scanlines {
       pointer-events: none;
       position: fixed;
@@ -285,7 +336,12 @@
       z-index: 999;
     }
 
-    /* === Responsive === */
+    /* =============================================
+       RESPONSIVE
+       On mobile (<700px): reduce padding, stack the neofetch
+       layout vertically, shrink ASCII art, and allow cert
+       items to wrap.
+       ============================================= */
     @media (max-width: 700px) {
       body { padding: 8px; }
       .terminal-body { padding: 16px; }
@@ -297,9 +353,12 @@
 </head>
 
 <body>
+  <!-- CRT scanline overlay — covers the entire viewport for retro effect -->
   <div class="scanlines"></div>
 
+  <!-- TERMINAL WINDOW — the main container styled like a macOS terminal -->
   <div class="terminal">
+    <!-- Window chrome: red/yellow/green dots + title + theme toggle button -->
     <div class="terminal-header">
       <span class="dot red"></span>
       <span class="dot yellow"></span>
@@ -309,9 +368,12 @@
     </div>
 
     <div class="terminal-body">
+      <!-- Simulated shell prompt before the neofetch output -->
       <p class="prompt">$ neofetch</p>
 
+      <!-- NEOFETCH LAYOUT: ASCII art on the left, info key-value pairs on the right -->
       <div class="neofetch">
+        <!-- ASCII art initials "GJII" rendered with Unicode block characters -->
         <div class="ascii-art">
     ██████╗      ██╗██╗██╗
    ██╔════╝      ██║██║██║
@@ -320,21 +382,27 @@
    ╚██████╔╝╚█████╔╝██║██║
     ╚═════╝  ╚════╝ ╚═╝╚═╝</div>
 
+        <!-- Right side: key-value system info, sections, and color bar -->
         <div class="info">
           <p class="info-header">gerald@rasppi</p>
           <p class="info-separator">-----------------</p>
 
+          <!-- Static personal info rows -->
           <p class="info-row"><span class="info-label">Name: </span><span class="info-value">Gerald Jones II</span></p>
           <p class="info-row"><span class="info-label">Role: </span><span class="info-value">Aspiring Security Engineer</span></p>
           <p class="info-row"><span class="info-label">Host: </span><span class="info-value">Raspberry Pi Home-Lab</span></p>
           <p class="info-row"><span class="info-label">Stack: </span><span class="info-value">Docker, Nginx, UFW, Cloudflare</span></p>
+          <!-- Dynamic rows — populated by main.js -->
+          <!-- Uptime: calculated client-side from a hardcoded launch date -->
           <p class="info-row"><span class="info-label">Uptime: </span><span class="info-value" id="uptime">0 days, 0 hours, 0 minutes</span></p>
+          <!-- CPU temp, load, and memory: fetched from /stats.json (written by stats.sh cron job) -->
           <p class="info-row"><span class="info-label">CPU: </span><span class="info-value" id="cpu-temp">--</span></p>
           <p class="info-row"><span class="info-label">Load: </span><span class="info-value" id="cpu-load">--</span></p>
           <p class="info-row"><span class="info-label">Memory: </span><span class="info-value" id="mem-usage">--</span></p>
           <p class="info-row"><span class="info-label">Resume: </span><span class="info-value"><a href="resume.pdf">resume.pdf</a></span></p>
           <p class="info-row"><span class="info-label">Blog: </span><span class="info-value"><a href="/blog/">~/blog</a></span></p>
 
+          <!-- CERT ROADMAP — progress bars for each CompTIA certification -->
           <div class="info-section">
             <div class="info-section-title">Cert Roadmap</div>
             <div class="cert-roadmap">
@@ -361,32 +429,17 @@
             </div>
           </div>
 
-          <div class="info-section">
-            <div class="info-section-title">Skills</div>
-            <ul class="info-list">
-              <li>SSH key-based auth with enforced UFW allowlisting</li>
-              <li>OWASP Juice Shop behind Nginx reverse proxy (Dockerized)</li>
-              <li>Log monitoring &amp; intrusion response via <code>journalctl</code> + <code>fail2ban</code></li>
-              <li>Linux web services with TLS tunneling via Cloudflare</li>
-              <li>Deployment automation through Docker Compose</li>
-            </ul>
-          </div>
+          <p class="info-row"><span class="info-label">Skills: </span><span class="info-value"><a href="/skills.html">~/skills</a></span></p>
+          <p class="info-row"><span class="info-label">Projects: </span><span class="info-value"><a href="/projects.html">~/projects</a></span></p>
 
-          <div class="info-section">
-            <div class="info-section-title">Projects</div>
-            <ul class="info-list">
-              <li>Portfolio Site — Terminal-style static site on Nginx + Docker</li>
-              <li>Home-Lab — Self-hosted services with SSH hardening, fail2ban, Cloudflare</li>
-              <li>OWASP Juice Shop — Vulnerable web app for security practice</li>
-            </ul>
-          </div>
-
+          <!-- CONTACT — email and GitHub links -->
           <div class="info-section">
             <div class="info-section-title">Contact</div>
             <p class="info-row"><span class="info-label">Email: </span><span class="info-value"><a href="mailto:jonesiibusiness@pm.me">jonesiibusiness@pm.me</a></span></p>
             <p class="info-row"><span class="info-label">GitHub: </span><span class="info-value"><a href="https://github.com/geraldjones28">geraldjones28</a></span></p>
           </div>
 
+          <!-- Neofetch-style color palette bar with pulsing animation -->
           <div class="color-bar">
             <span style="background:#1a1a1a"></span>
             <span style="background:#ff5f56"></span>
@@ -400,9 +453,11 @@
         </div>
       </div>
 
+      <!-- Footer prompt with blinking cursor — purely decorative -->
       <p class="footer">$ <span class="cursor">█</span></p>
     </div>
   </div>
+  <!-- Client-side JS: uptime counter, live stats fetcher, theme toggle, Konami code easter egg -->
   <script src="main.js"></script>
 </body>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blog - Gerald Jones II</title>
+  <title>Skills - Gerald Jones II</title>
   <link rel="icon" href="data:">
   <style>
     @keyframes blink {
@@ -54,10 +54,9 @@
     a:hover { color: var(--text); }
     .cursor { display: inline-block; color: var(--accent); animation: blink 1s step-end infinite; }
     .footer { margin-top: 24px; color: var(--text-dim); }
-    .post-list { list-style: none; padding: 0; margin: 0; }
-    .post-list li { padding: 8px 0; border-bottom: 1px solid var(--section-border); }
-    .post-list li:last-child { border-bottom: none; }
-    .post-date { color: var(--text-dim); font-size: 13px; margin-right: 12px; }
+    .info-list { list-style: none; padding: 0; margin: 0; }
+    .info-list li { padding: 4px 0; color: var(--text); }
+    .info-list li::before { content: "- "; color: var(--text-muted); }
     .back-link { margin-bottom: 16px; display: block; }
     @media (max-width: 700px) {
       body { padding: 8px; }
@@ -72,19 +71,21 @@
       <span class="dot red"></span>
       <span class="dot yellow"></span>
       <span class="dot green"></span>
-      <span class="title">gerald@rasppi:~/blog</span>
+      <span class="title">gerald@rasppi:~/skills</span>
       <button class="theme-toggle" id="theme-toggle">[light]</button>
     </div>
 
     <div class="terminal-body">
       <a href="/" class="back-link">&lt; cd ~</a>
-      <p class="prompt">$ ls -lt blog/</p>
+      <p class="prompt">$ cat skills.txt</p>
 
-      <ul class="post-list">
-        <li>
-          <span class="post-date">2026-02-09</span>
-          <a href="/blog/hello-world.html">hello-world.txt — Welcome!</a>
-        </li>
+      <ul class="info-list">
+        <li>Linux system administration</li>
+        <li>Network hardening &amp; firewall management</li>
+        <li>Log monitoring &amp; intrusion detection</li>
+        <li>Docker &amp; container orchestration</li>
+        <li>Web server configuration (Nginx)</li>
+        <li>TLS &amp; reverse proxy setup</li>
       </ul>
 
       <p class="footer">$ <span class="cursor">█</span></p>
