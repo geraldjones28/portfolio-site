@@ -115,7 +115,7 @@ function renderPost({ slug, title, date, body }) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>${escapeHtml(title)} - Gerald Jones II</title>
-  <link rel="icon" href="data:">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
 ${POST_CSS}
   </style>
@@ -229,7 +229,7 @@ function renderIndex(posts) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Blog - Gerald Jones II</title>
-  <link rel="icon" href="data:">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
 ${INDEX_CSS}
   </style>
