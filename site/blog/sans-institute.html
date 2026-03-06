@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blog - Gerald Jones II</title>
+  <title>SANS Institute - Gerald Jones II</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     @keyframes blink {
@@ -13,12 +13,12 @@
     :root, [data-theme="dark"] {
       --bg: #0a0a0a; --terminal-bg: #0a0a0a; --header-bg: #111;
       --border: #333; --text: #ccc; --text-dim: #888; --text-muted: #555;
-      --accent: #00ff41; --section-border: #1a1a1a;
+      --accent: #00ff41; --section-border: #1a1a1a; --code-bg: #1a1a1a;
     }
     [data-theme="light"] {
       --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
       --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
-      --accent: #007a1f; --section-border: #ccc;
+      --accent: #007a1f; --section-border: #ccc; --code-bg: #ddd;
     }
     * { box-sizing: border-box; }
     body {
@@ -54,11 +54,13 @@
     a:hover { color: var(--text); }
     .cursor { display: inline-block; color: var(--accent); animation: blink 1s step-end infinite; }
     .footer { margin-top: 24px; color: var(--text-dim); }
-    .post-list { list-style: none; padding: 0; margin: 0; }
-    .post-list li { padding: 8px 0; border-bottom: 1px solid var(--section-border); }
-    .post-list li:last-child { border-bottom: none; }
-    .post-date { color: var(--text-dim); font-size: 13px; margin-right: 12px; }
     .back-link { margin-bottom: 16px; display: block; }
+    .post-title { color: var(--accent); font-weight: bold; font-size: 18px; margin: 0 0 4px; }
+    .post-date { color: var(--text-dim); font-size: 13px; margin: 0 0 20px; }
+    .post-body p { margin: 12px 0; }
+    code {
+      background: var(--code-bg); padding: 2px 6px; color: var(--accent);
+    }
     @media (max-width: 700px) {
       body { padding: 8px; }
       .terminal-body { padding: 16px; }
@@ -77,27 +79,33 @@
     </div>
 
     <div class="terminal-body">
-      <a href="/" class="back-link">&lt; cd ~</a>
-      <p class="prompt">$ ls -lt blog/</p>
+      <a href="/blog/" class="back-link">&lt; cd ~/blog</a>
+      <p class="prompt">$ cat sans-institute.txt</p>
 
-      <ul class="post-list">
-        <li>
-          <span class="post-date">2026-03-06</span>
-          <a href="/blog/sans-institute.html">sans-institute.txt — SANS Institute</a>
-        </li>
-        <li>
-          <span class="post-date">2026-03-04</span>
-          <a href="/blog/codepath-beginnings.html">codepath-beginnings.txt — CodePath Beginnings</a>
-        </li>
-        <li>
-          <span class="post-date">2026-02-13</span>
-          <a href="/blog/keep-moving-forward.html">keep-moving-forward.txt — Keep Moving Forward!</a>
-        </li>
-        <li>
-          <span class="post-date">2026-02-09</span>
-          <a href="/blog/hello-world.html">hello-world.txt — Welcome!</a>
-        </li>
-      </ul>
+      <h1 class="post-title">SANS Institute</h1>
+      <p class="post-date">2026-03-06</p>
+
+      <div class="post-body">
+        <p>TL;DR</p>
+
+        <p>-Applied to the SANS Undergraduate Certification Applied CyberSecurity program — pricey but worth the investment given the resume value in the final year of a CS degree</p>
+
+        <p>-Juggling a packed roadmap: SANS certs + CCNA + ASU CS degree + one CodePath course per semester, with eyes on a pre-graduation internship</p>
+
+        <p>-Eyeing a CodePath Tech Fellow role for Summer or Fall 2026</p>
+
+        <p>-Been watching cybersecurity/data privacy documentaries (Cyberbunker, The Great Hack) and actively cutting wasteful spending habits to stay laser-focused on the career transition</p>
+
+        <p>-Still grinding toward the CompTIA A+ Core 2 certification (exam 3/18)</p>
+
+        <p>Today I applied for the Undergraduate Certification Applied CyberSecurity program that the SANS institute offers. I found it via a DuckDuckGo search and after some intensive research (as it&#39;s fairly expensive) I&#39;ve decided the investment is worth it. I&#39;m in the last year of my Computer Science Bachelor&#39;s degree and the certifications offered via the coursed would look fantastic on my resume. I&#39;m hoping to be able to land an internship before graduation, but will continue learning, growing, and practicing at home regardless. In tangent to these SANS courses, I&#39;ll be studying for the CCNA test, continuing my academic studies for my CS degree at ASU, and take one CodePath course each semester as I find them to be a nice little break from intensive school work but still intellectually invigorating. Hopefully able to land that Tech Fellow membership at Codepath for Summer or Fall 2026!</p>
+
+        <p>I&#39;ve also been watching a fair amount of documentaries on the importance of personal data and the power the internet has on the individual. &#39;Cyberbunker&#39; and &#39;The Great Hack&#39; were the two I finished. Still working through &#39;Buy Now: The Shopping Conspiracy&#39; as I&#39;ve also been on a kick to end all of my wasteful consumer habits. The time I have gained just in these last two months has been so freeing simply through better money management and really thinking before I make any purchases. Time is money, and also time is freedom! There isn&#39;t much not that&#39;ll get me to spend money as I now equate the dollar amount I spend to how many hours of work that leads to in the future. Starbucks is great and all, but I&#39;m really working to get this career transition happening so I can be in a field I really want to make change in.</p>
+
+        <p>Anyways, back to work on studying for this COMPTIA A+ Core 2 exam... Then I&#39;ll be certified!</p>
+
+        <p>Until then - Gerald</p>
+      </div>
 
       <p class="footer">$ <span class="cursor">█</span></p>
     </div>

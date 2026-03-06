@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blog - Gerald Jones II</title>
+  <title>Keep Moving Forward! - Gerald Jones II</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     @keyframes blink {
@@ -13,12 +13,12 @@
     :root, [data-theme="dark"] {
       --bg: #0a0a0a; --terminal-bg: #0a0a0a; --header-bg: #111;
       --border: #333; --text: #ccc; --text-dim: #888; --text-muted: #555;
-      --accent: #00ff41; --section-border: #1a1a1a;
+      --accent: #00ff41; --section-border: #1a1a1a; --code-bg: #1a1a1a;
     }
     [data-theme="light"] {
       --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
       --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
-      --accent: #007a1f; --section-border: #ccc;
+      --accent: #007a1f; --section-border: #ccc; --code-bg: #ddd;
     }
     * { box-sizing: border-box; }
     body {
@@ -54,11 +54,13 @@
     a:hover { color: var(--text); }
     .cursor { display: inline-block; color: var(--accent); animation: blink 1s step-end infinite; }
     .footer { margin-top: 24px; color: var(--text-dim); }
-    .post-list { list-style: none; padding: 0; margin: 0; }
-    .post-list li { padding: 8px 0; border-bottom: 1px solid var(--section-border); }
-    .post-list li:last-child { border-bottom: none; }
-    .post-date { color: var(--text-dim); font-size: 13px; margin-right: 12px; }
     .back-link { margin-bottom: 16px; display: block; }
+    .post-title { color: var(--accent); font-weight: bold; font-size: 18px; margin: 0 0 4px; }
+    .post-date { color: var(--text-dim); font-size: 13px; margin: 0 0 20px; }
+    .post-body p { margin: 12px 0; }
+    code {
+      background: var(--code-bg); padding: 2px 6px; color: var(--accent);
+    }
     @media (max-width: 700px) {
       body { padding: 8px; }
       .terminal-body { padding: 16px; }
@@ -77,27 +79,27 @@
     </div>
 
     <div class="terminal-body">
-      <a href="/" class="back-link">&lt; cd ~</a>
-      <p class="prompt">$ ls -lt blog/</p>
+      <a href="/blog/" class="back-link">&lt; cd ~/blog</a>
+      <p class="prompt">$ cat keep-moving-forward.txt</p>
 
-      <ul class="post-list">
-        <li>
-          <span class="post-date">2026-03-06</span>
-          <a href="/blog/sans-institute.html">sans-institute.txt — SANS Institute</a>
-        </li>
-        <li>
-          <span class="post-date">2026-03-04</span>
-          <a href="/blog/codepath-beginnings.html">codepath-beginnings.txt — CodePath Beginnings</a>
-        </li>
-        <li>
-          <span class="post-date">2026-02-13</span>
-          <a href="/blog/keep-moving-forward.html">keep-moving-forward.txt — Keep Moving Forward!</a>
-        </li>
-        <li>
-          <span class="post-date">2026-02-09</span>
-          <a href="/blog/hello-world.html">hello-world.txt — Welcome!</a>
-        </li>
-      </ul>
+      <h1 class="post-title">Keep Moving Forward!</h1>
+      <p class="post-date">2026-02-13</p>
+
+      <div class="post-body">
+        <p>Big moves happening this week. I applied for a work program to try to get some real-world experience in the IT field, and I also applied for a direct internship through CodePath that&#39;ll be happening in June. Both are exciting prospects, but I&#39;d be lying if I said I wasn&#39;t nervous. Putting yourself out there is always a little scary, but that&#39;s where the growth happens.</p>
+
+        <p>Outside of that, I&#39;m working hard to finish my degree and complete the CompTIA trifecta: A+, Network+, and Security+. Core 1 is done, and I&#39;m deep into A+ Core 2 studies right now. Honestly, a lot of it is Windows stuff I already know, but it&#39;s good to formalize that knowledge and fill in the gaps. Onwards we go.</p>
+
+        <p>On the project side, I&#39;m working on a simple administrator login UI built with JavaFX as part of a team. The project itself isn&#39;t anything crazy, but the real value is in the team collaboration and learning how to work together on a shared codebase. Those soft skills matter just as much as the technical ones.</p>
+
+        <p>Speaking of workflow, I&#39;ve been learning a ton through implementing Claude Code into my development process. The productivity jump is real. I can focus on the architecture and logic while it handles the boilerplate. It&#39;s like pair programming with someone who never gets tired.</p>
+
+        <p>Another thing that&#39;s been a game-changer: the Pomodoro method. Without it, I get about 2 hours of deep work done. With it, I&#39;m hitting 5 to 7 hours consistently. That&#39;s not a marginal improvement, that&#39;s a 3x multiplier. If you&#39;re not using it, try it. 25 minutes on, 5 minutes off. Feels good, man.</p>
+
+        <p>On a lighter note, I picked up a neat little synthesizer, a Korg FM2, that I like to mess around with whenever I get any increments of free time. There&#39;s something about making weird sounds that resets the brain between study sessions.</p>
+
+        <p>Keep moving forward, as Meet the Robinsons (favorite animated movie) says. :)</p>
+      </div>
 
       <p class="footer">$ <span class="cursor">█</span></p>
     </div>

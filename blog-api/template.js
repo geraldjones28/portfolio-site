@@ -28,9 +28,9 @@ const POST_CSS = `    @keyframes blink {
       --accent: #00ff41; --section-border: #1a1a1a; --code-bg: #1a1a1a;
     }
     [data-theme="light"] {
-      --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
-      --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
-      --accent: #007a1f; --section-border: #ccc; --code-bg: #ddd;
+      --bg: #c8c6be; --terminal-bg: #d6d4cc; --header-bg: #bfbdb6;
+      --border: #a8a69f; --text: #222; --text-dim: #555; --text-muted: #777;
+      --accent: #007a1f; --section-border: #b5b3ac; --code-bg: #c0beb7;
     }
     * { box-sizing: border-box; }
     body {
@@ -164,9 +164,9 @@ const INDEX_CSS = `    @keyframes blink {
       --accent: #00ff41; --section-border: #1a1a1a;
     }
     [data-theme="light"] {
-      --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
-      --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
-      --accent: #007a1f; --section-border: #ccc;
+      --bg: #c8c6be; --terminal-bg: #d6d4cc; --header-bg: #bfbdb6;
+      --border: #a8a69f; --text: #222; --text-dim: #555; --text-muted: #777;
+      --accent: #007a1f; --section-border: #b5b3ac;
     }
     * { box-sizing: border-box; }
     body {
@@ -220,7 +220,7 @@ function renderIndex(posts) {
   const sorted = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
 
   const listItems = sorted.map(p =>
-    `        <li>\n          <span class="post-date">${escapeHtml(p.date)}</span>\n          <a href="/blog/${escapeHtml(p.slug)}.html">${escapeHtml(p.slug)}.txt \u2014 ${escapeHtml(p.title)}</a>\n        </li>`
+    `        <li>\n          <span class="post-date">${escapeHtml(p.date)}</span>\n          <a href="/blog/${escapeHtml(p.slug)}.html">${escapeHtml(p.slug)}.txt</a>\n        </li>`
   ).join('\n');
 
   return `<!doctype html>

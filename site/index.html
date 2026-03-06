@@ -173,6 +173,13 @@
       font-size: 11px;
       line-height: 1.2;
       flex-shrink: 0;
+      animation: float 3s ease-in-out infinite;
+      transition: translate 0.3s ease-out;
+      translate: 0px 0px;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
     .info {
       flex: 1;
@@ -250,6 +257,9 @@
     }
     .cert-name.completed {
       color: var(--accent);
+    }
+    .cert-name.in-progress {
+      color: var(--accent-dim);
     }
     .progress-bar {
       flex: 1;
@@ -412,9 +422,14 @@
                 <span class="cert-status">Core 1 ✓</span>
               </div>
               <div class="cert-item">
-                <span class="cert-name">Net+</span>
-                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
-                <span class="cert-status">planned</span>
+                <span class="cert-name in-progress">CCNA</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div>
+                <span class="cert-status">in progress</span>
+              </div>
+              <div class="cert-item">
+                <span class="cert-name in-progress">Net+</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div>
+                <span class="cert-status">in progress</span>
               </div>
               <div class="cert-item">
                 <span class="cert-name">Sec+</span>
@@ -459,6 +474,24 @@
   </div>
   <!-- Client-side JS: uptime counter, live stats fetcher, theme toggle, Konami code easter egg -->
   <script src="main.js"></script>
+  <script>
+    (function() {
+      var art = document.querySelector('.ascii-art');
+      var push = 20;
+      art.addEventListener('mousemove', function(e) {
+        var rect = art.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        var dx = cx - e.clientX;
+        var dy = cy - e.clientY;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        art.style.translate = (dx / dist * push) + 'px ' + (dy / dist * push) + 'px';
+      });
+      art.addEventListener('mouseleave', function() {
+        art.style.translate = '0px 0px';
+      });
+    })();
+  </script>
 </body>
 
 </html>

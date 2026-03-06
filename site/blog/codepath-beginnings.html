@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Welcome! - Gerald Jones II</title>
+  <title>CodePath Beginnings - Gerald Jones II</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     @keyframes blink {
@@ -16,9 +16,9 @@
       --accent: #00ff41; --section-border: #1a1a1a; --code-bg: #1a1a1a;
     }
     [data-theme="light"] {
-      --bg: #c8c6be; --terminal-bg: #d6d4cc; --header-bg: #bfbdb6;
-      --border: #a8a69f; --text: #222; --text-dim: #555; --text-muted: #777;
-      --accent: #007a1f; --section-border: #b5b3ac; --code-bg: #c0beb7;
+      --bg: #e8e8e8; --terminal-bg: #f5f5f0; --header-bg: #ddd;
+      --border: #bbb; --text: #222; --text-dim: #666; --text-muted: #999;
+      --accent: #007a1f; --section-border: #ccc; --code-bg: #ddd;
     }
     * { box-sizing: border-box; }
     body {
@@ -80,24 +80,28 @@
 
     <div class="terminal-body">
       <a href="/blog/" class="back-link">&lt; cd ~/blog</a>
-      <p class="prompt">$ cat hello-world.txt</p>
+      <p class="prompt">$ cat codepath-beginnings.txt</p>
 
-      <h1 class="post-title">Welcome!</h1>
-      <p class="post-date">2026-02-09</p>
+      <h1 class="post-title">CodePath Beginnings</h1>
+      <p class="post-date">2026-03-04</p>
 
       <div class="post-body">
-        <p>Welcome to my blog. My name is Gerald Jones, and this is where I document my path to becoming a Security Engineer.</p>
+        <p>TL;DR
+-Taking CYB102 (Intermediate Cybersecurity) with Codepath — great social experience with collaborative labs despite a generally shy cohort</p>
 
-        <p>The Tech Stack This site is self-hosted on my Raspberry Pi. I built it from scratch in about 3 hours using Claude Code to expedite the development. I’m a big believer in using modern tools to ship faster, and now I’m dissecting the backend code to understand every gear and pulley.</p>
+        <p>-Project 1: Analyzed pcap files in Wireshark to identify malware-laden email traffic; sparked serious interest in network forensics and malware analysis as a career specialization</p>
 
-        <p>Certs: CompTIA A+ Core 1 (Done) // Core 2 (In Progress)
-Degree: Bachelor’s of Computer Science (Expected Summer 2027)
-Skills: Frontend (The Odin Project), Linux CLI, Hardware
-Fun: Currently grinding through OverTheWire: Bandit.</p>
+        <p>-Project 2: Used auditctl/auditd to monitor and log filesystem activity during a simulated attack — demystified reading noisy Linux logs</p>
 
-        <p>I’ll be posting about home-lab experiments, security findings, certification notes, and the &quot;break/fix&quot; logs of my daily learning.</p>
+        <p>-Applied to become a Tech Fellow for a summer course to give back and help others break into the field</p>
 
-        <p>Stay tuned.</p>
+        <p>I recently began my Intermediate Cybersecurity class (CYB102) with Codepath. Very nice little course so far and very heavy on collaboration with fellow classmates. Everyone is pretty shy for the most part so I do my best to break the ice and get friendly with the new group I&#39;m assigned every lecture for the labs. Overall, it&#39;s been a nice experience in the social regard, especially given that most of my online class experience has been pretty lonely. I&#39;ve been having much more fun with the project, however! The subject matter has been leading me down rabbit holes of information and I&#39;m learning tons more than what the projects are even expecting.</p>
+
+        <p>The first project consisted of me using Wireshark to analyze a couple of pcap files. I was to inspect email traffic and find the pcap file that had the malware attached to it. It was very fun diving into these files and I loved looking through the TCP streams of certain packets to be able to read the contents of the emails better. This project in itself got me very interested in Network forensics and malware analysis and I&#39;m thinking of leaning towards specializing in that for my career in CyberSecurity!</p>
+
+        <p>The second project was simpler, but led to me going down about two hours worth of rabbitholes to better understand how Linux actually logs activity on the host machine. I used auditctl/auditd extensively throughout the project to monitor a directory and the logged everything that was changed in that directory through running the attack scripts Codepath had us download. It was very eyeopening and helped me better be able to read logs as I used to be pretty intimidated by all of the noise they can generate. Thankfully, the &#39;-k&#39; switch exists!</p>
+
+        <p>I&#39;m excited to continue this course through Codepath and reached out to the Tech Fellow Manager in regards to my interest in becoming a Tech Fellow for a course in the Summer. I think it&#39;d be a great experience to be able to aide others in course material and help others better understand this field.</p>
       </div>
 
       <p class="footer">$ <span class="cursor">█</span></p>
