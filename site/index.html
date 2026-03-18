@@ -127,8 +127,22 @@
       color: var(--text-dim);
       font-size: 13px;
     }
-    .theme-toggle {
+    .welcome-msg {
+      color: var(--accent);
+      font-size: 13px;
       margin-left: auto;
+      white-space: nowrap;
+    }
+    .welcome-msg::after {
+      content: '█';
+      animation: blink 1s step-end infinite;
+    }
+    .welcome-msg.done::after {
+      content: '';
+      animation: none;
+    }
+    .theme-toggle {
+      margin-left: 12px;
       background: none;
       border: 1px solid var(--border);
       color: var(--accent);
@@ -374,6 +388,7 @@
       <span class="dot yellow"></span>
       <span class="dot green"></span>
       <span class="title">gerald@rasppi:~</span>
+      <span class="welcome-msg" id="welcome-msg"></span>
       <button class="theme-toggle" id="theme-toggle">[light]</button>
     </div>
 
@@ -418,8 +433,8 @@
             <div class="cert-roadmap">
               <div class="cert-item">
                 <span class="cert-name completed">A+</span>
-                <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
-                <span class="cert-status">Core 1 ✓</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+                <span class="cert-status">Earned 2026-03-18 ✓</span>
               </div>
               <div class="cert-item">
                 <span class="cert-name in-progress">CCNA</span>
@@ -427,17 +442,7 @@
                 <span class="cert-status">in progress</span>
               </div>
               <div class="cert-item">
-                <span class="cert-name in-progress">Net+</span>
-                <div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div>
-                <span class="cert-status">in progress</span>
-              </div>
-              <div class="cert-item">
                 <span class="cert-name">Sec+</span>
-                <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
-                <span class="cert-status">planned</span>
-              </div>
-              <div class="cert-item">
-                <span class="cert-name">CySA+</span>
                 <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
                 <span class="cert-status">planned</span>
               </div>
@@ -490,6 +495,22 @@
       art.addEventListener('mouseleave', function() {
         art.style.translate = '0px 0px';
       });
+    })();
+  </script>
+  <script>
+    (function() {
+      var el = document.getElementById('welcome-msg');
+      var text = 'Welcome to my portfolio!';
+      var i = 0;
+      var delay = 1000;
+      setTimeout(function type() {
+        if (i < text.length) {
+          el.textContent += text[i++];
+          setTimeout(type, 70 + Math.random() * 50);
+        } else {
+          setTimeout(function() { el.classList.add('done'); }, 1500);
+        }
+      }, delay);
     })();
   </script>
 </body>
