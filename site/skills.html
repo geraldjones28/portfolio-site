@@ -96,8 +96,16 @@
     (function() {
       var html = document.documentElement;
       var btn = document.getElementById('theme-toggle');
-      var saved = localStorage.getItem('theme');
-      if (saved) html.setAttribute('data-theme', saved);
+      function saveTheme(theme) {
+        localStorage.setItem('theme', theme);
+        document.cookie = 'theme=' + theme + '; Domain=geraldjonesii.dev; Path=/; Max-Age=31536000; Secure; SameSite=Lax';
+      }
+      var match = document.cookie.match(/(?:^|; )theme=(dark|light)/);
+      var saved = match ? match[1] : localStorage.getItem('theme');
+      if (saved) {
+        html.setAttribute('data-theme', saved);
+        saveTheme(saved);
+      }
       function updateBtn() {
         var current = html.getAttribute('data-theme') || 'dark';
         btn.textContent = current === 'dark' ? '[light]' : '[dark]';
@@ -107,7 +115,7 @@
         var current = html.getAttribute('data-theme') || 'dark';
         var next = current === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
+        saveTheme(next);
         updateBtn();
       });
     })();

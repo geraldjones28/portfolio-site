@@ -1,14 +1,12 @@
 # =============================================================================
 # DOCKER COMPOSE — Portfolio Site
-# Runs Nginx (static site) and a blog API (Node.js) for managing blog posts.
-# The site/ directory is bind-mounted for Nginx; the blog-api service gets
-# read-write access to site/blog/ only for creating/editing/deleting posts.
+# Runs Nginx to serve the static site.
+# The site/ directory is bind-mounted read-only for Nginx.
 #
 # Usage:
 #   docker compose up -d --build   # Build and start all containers
 #   docker compose down            # Stop and remove all containers
 #   docker compose restart         # Restart after config changes
-#   docker compose logs blog-api   # View blog API logs
 # =============================================================================
 
 #version: "3.9"
@@ -25,22 +23,18 @@ services:
       - ./site:/usr/share/nginx/html:ro
       # Mount the custom Nginx config (read-only)
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - blog-api                  # Ensure API is up before Nginx starts proxying
     restart: unless-stopped       # Auto-restart on crash or reboot (unless manually stopped)
 
-  # --- Blog Management API ---
-  # Node.js Express server that provides CRUD endpoints for blog posts.
-  # Only has write access to the blog/ subdirectory (least privilege).
-  # Not exposed to the host — only accessible via Nginx reverse proxy.
-  blog-api:
-    build: ./blog-api             # Build from blog-api/Dockerfile
-    container_name: portfolio-blog-api
+  # --- Threat-Intel Theme Proxy ---
+  # Forwards to the Azure-hosted app and injects the portfolio theme into its pages.
+  # Bound to localhost; the public route is threatintel.geraldjonesii.dev via the tunnel.
+  threatintel:
+    image: nginx:alpine
+    container_name: portfolio-threatintel
+    ports:
+      - "127.0.0.1:8082:80"
     volumes:
-      - ./site/blog:/app/blog     # Read-write access to blog directory only
-    environment:
-      - BLOG_PASSWORD_HASH=${BLOG_PASSWORD_HASH}
-      - JWT_SECRET=${JWT_SECRET}
-    expose:
-      - "3000"                    # Internal port only (not mapped to host)
+      # Directories rather than single files, so edits are seen without recreating the container
+      - ./threatintel/conf.d:/etc/nginx/conf.d:ro
+      - ./threatintel/theme:/usr/share/nginx/html/_theme:ro
     restart: unless-stopped

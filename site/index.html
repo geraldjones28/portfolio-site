@@ -414,18 +414,15 @@
 
           <!-- Static personal info rows -->
           <p class="info-row"><span class="info-label">Name: </span><span class="info-value">Gerald Jones II</span></p>
-          <p class="info-row"><span class="info-label">Role: </span><span class="info-value">Aspiring Security Engineer</span></p>
+          <p class="info-row"><span class="info-label">Role: </span><span class="info-value">Information Technology Consultant</span></p>
           <p class="info-row"><span class="info-label">Host: </span><span class="info-value">Raspberry Pi Home-Lab</span></p>
           <p class="info-row"><span class="info-label">Stack: </span><span class="info-value">Docker, Nginx, UFW, Cloudflare</span></p>
           <!-- Dynamic rows — populated by main.js -->
-          <!-- Uptime: calculated client-side from a hardcoded launch date -->
-          <p class="info-row"><span class="info-label">Uptime: </span><span class="info-value" id="uptime">0 days, 0 hours, 0 minutes</span></p>
           <!-- CPU temp, load, and memory: fetched from /stats.json (written by stats.sh cron job) -->
           <p class="info-row"><span class="info-label">CPU: </span><span class="info-value" id="cpu-temp">--</span></p>
           <p class="info-row"><span class="info-label">Load: </span><span class="info-value" id="cpu-load">--</span></p>
           <p class="info-row"><span class="info-label">Memory: </span><span class="info-value" id="mem-usage">--</span></p>
-          <p class="info-row"><span class="info-label">Resume: </span><span class="info-value"><a href="Resume_GJonesII.pdf" target="_blank" rel="noopener noreferrer">resume.pdf</a></span></p>
-          <p class="info-row"><span class="info-label">Blog: </span><span class="info-value"><a href="/blog/">~/blog</a></span></p>
+          <p class="info-row"><span class="info-label">Resume: </span><span class="info-value"><a href="Gerald_Jones_Resume.pdf" target="_blank" rel="noopener noreferrer">resume.pdf</a></span></p>
 
           <!-- CERT ROADMAP — progress bars for each CompTIA certification -->
           <div class="info-section">
@@ -456,6 +453,7 @@
           <div class="info-section">
             <div class="info-section-title">Contact</div>
             <p class="info-row"><span class="info-label">Email: </span><span class="info-value"><a href="mailto:jonesiibusiness@pm.me">jonesiibusiness@pm.me</a></span></p>
+            <p class="info-row"><span class="info-label">LinkedIn: </span><span class="info-value"><a href="https://www.linkedin.com/in/gerald-jones-ii/" target="_blank" rel="noopener noreferrer">gerald-jones-ii</a></span></p>
             <p class="info-row"><span class="info-label">GitHub: </span><span class="info-value"><a href="https://github.com/geraldjones28">geraldjones28</a></span></p>
           </div>
 
@@ -478,7 +476,7 @@
     </div>
   </div>
   <!-- Client-side JS: uptime counter, live stats fetcher, theme toggle, Konami code easter egg -->
-  <script src="main.js"></script>
+  <script src="main.js?v=2"></script>
   <script>
     (function() {
       var art = document.querySelector('.ascii-art');
