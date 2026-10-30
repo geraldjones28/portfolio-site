@@ -45,17 +45,25 @@
 
 // =============================================================================
 // THEME TOGGLE (Dark / Light)
-// Reads the saved theme from localStorage on load and applies it to the
+// Reads the saved theme on load and applies it to the
 // <html data-theme="..."> attribute (which controls all CSS custom properties).
-// The toggle button switches between "dark" and "light", persists the choice
-// to localStorage, and updates its own label text accordingly.
+// The toggle button switches between "dark" and "light", persists the choice,
+// and updates its own label text accordingly.
+// The choice is kept in a cookie shared across *.geraldjonesii.dev as well as in
+// localStorage, which is the fallback (e.g. on localhost, where the cookie is refused).
 // =============================================================================
 (function initTheme() {
   var html = document.documentElement;
   var btn = document.getElementById('theme-toggle');
-  var saved = localStorage.getItem('theme');
+  function saveTheme(theme) {
+    localStorage.setItem('theme', theme);
+    document.cookie = 'theme=' + theme + '; Domain=geraldjonesii.dev; Path=/; Max-Age=31536000; Secure; SameSite=Lax';
+  }
+  var match = document.cookie.match(/(?:^|; )theme=(dark|light)/);
+  var saved = match ? match[1] : localStorage.getItem('theme');
   if (saved) {
     html.setAttribute('data-theme', saved); // Apply saved preference
+    saveTheme(saved);                       // Share a choice saved before the cookie existed
   }
   // Update button text to show the *opposite* theme (i.e. what you'd switch to)
   function updateBtn() {
@@ -67,7 +75,7 @@
     var current = html.getAttribute('data-theme') || 'dark';
     var next = current === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);     // Persist choice across sessions
+    saveTheme(next);                         // Persist choice across sessions
     updateBtn();
   });
 })();

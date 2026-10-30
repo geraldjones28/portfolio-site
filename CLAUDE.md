@@ -27,6 +27,10 @@ Two Docker containers orchestrated via `docker-compose.yml`:
 - `template.js` — HTML template generator for blog posts and index page. **Critical: the CSS in `POST_CSS` and `INDEX_CSS` constants is duplicated from the site's terminal styling and must stay in sync with the main site's theme variables.**
 - Auth requires `.env` with `BLOG_PASSWORD_HASH` (bcrypt) and `JWT_SECRET` (not committed)
 
+### Threat-Intel Proxy (`threatintel/`)
+
+The `threatintel` container (Nginx, `127.0.0.1:8082`) serves https://threatintel.geraldjonesii.dev through the Cloudflare Tunnel. It forwards to the Azure-hosted app and uses `sub_filter` to inject the terminal theme from `threatintel/theme/` into each page. **The theme variables in `theme.css` are duplicated from `site/index.html` and must stay in sync.** Edit the tunnel route in `~/.cloudflared/config.yml`, then run `docker restart cloudflared`. Cloudflare caches static files for 4 hours, so after editing `theme.css`, `theme.js` or `site/main.js`, bump the `?v=` on their URLs (in `threatintel/conf.d/default.conf` and `site/index.html`).
+
 ### Stats (`stats/stats.sh`)
 
 Cron job (every minute) writes `site/stats.json` with CPU temp, load avg, and RAM from the Pi. Fetched by `main.js`.
@@ -60,5 +64,5 @@ No build step for static files — `site/` is bind-mounted so edits are served i
 - `.env` and `site/stats.json` are gitignored — never commit these
 - Blog post theme CSS is duplicated in `blog-api/template.js` — when changing theme variables in `site/index.html`, update `POST_CSS` and `INDEX_CSS` in template.js to match
 - Blog slugs must match: lowercase alphanumeric + hyphens, 2-100 chars, can't start/end with hyphen
-- Each blog/skills/projects page has its own inline theme toggle script (not shared from main.js)
+- Each blog/skills/projects page has its own inline theme toggle script (not shared from main.js). The choice is saved in a `theme` cookie on `geraldjonesii.dev` so it carries across subdomains, with localStorage as the fallback — keep `main.js`, the inline scripts and `threatintel/theme/theme.js` consistent
 - Cron job path is hardcoded: `* * * * * /home/raspjones/portfolio-site/stats/stats.sh`

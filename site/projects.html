@@ -81,9 +81,8 @@
 
       <ul class="info-list">
         <li>Home-Lab: Self-hosted services with SSH hardening, fail2ban, Cloudflare</li>
-        <li>Portfolio Site: Terminal-style site on Nginx + Docker with blog admin panel</li>
-        <li>Blog CMS: Browser-based blog editor backed by a Node.js API + JWT auth</li>
-        <li>OWASP Juice Shop: Vulnerable web app for security practice</li>
+        <li>Portfolio Site: Terminal-style site on Nginx + Docker</li>
+        <li><a href="https://threatintel.geraldjonesii.dev">Threat-Intel Digest</a>: ASP.NET web services for ranking known exploited CVEs by exploit probability (CISA KEV + EPSS), finding security news by topic, and extracting a webpage's top keywords. Hosted on Azure</li>
       </ul>
 
       <p class="footer">$ <span class="cursor">█</span></p>
@@ -94,8 +93,16 @@
     (function() {
       var html = document.documentElement;
       var btn = document.getElementById('theme-toggle');
-      var saved = localStorage.getItem('theme');
-      if (saved) html.setAttribute('data-theme', saved);
+      function saveTheme(theme) {
+        localStorage.setItem('theme', theme);
+        document.cookie = 'theme=' + theme + '; Domain=geraldjonesii.dev; Path=/; Max-Age=31536000; Secure; SameSite=Lax';
+      }
+      var match = document.cookie.match(/(?:^|; )theme=(dark|light)/);
+      var saved = match ? match[1] : localStorage.getItem('theme');
+      if (saved) {
+        html.setAttribute('data-theme', saved);
+        saveTheme(saved);
+      }
       function updateBtn() {
         var current = html.getAttribute('data-theme') || 'dark';
         btn.textContent = current === 'dark' ? '[light]' : '[dark]';
@@ -105,7 +112,7 @@
         var current = html.getAttribute('data-theme') || 'dark';
         var next = current === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
+        saveTheme(next);
         updateBtn();
       });
     })();
